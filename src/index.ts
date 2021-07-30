@@ -208,8 +208,6 @@ function mergeContext(context, additionalContent, aggregate = false) {
 }
 
 function evaluateRule(rule, resolvedInputExpressions, outputNames) {
-    // console.log('.........................');
-    // console.log(rule)
     for (let i = 0; i < rule.inputValues.length; i += 1) {
         try {
             let inputValue = resolvedInputExpressions[i].value;
@@ -220,8 +218,11 @@ function evaluateRule(rule, resolvedInputExpressions, outputNames) {
                 inputValue = 'false'
             }
             const inputRule = rule.inputValues[i];
-            const res = unaryTest(inputRule, { '?': inputValue })
-            // console.log('inputRule: ', inputRule, 'inputname: ', resolvedInputExpressions[i].name, 'inputValue: ', inputValue, 'res: ', res);
+            let context = { '?': inputValue };
+            if (inputRule.includes(resolvedInputExpressions[i].name)) {
+                context[resolvedInputExpressions[i].name] = inputValue;
+            }
+            const res = unaryTest(inputRule, context)
             if (!res) {
                 return {
                     matched: false,
@@ -240,7 +241,6 @@ function evaluateRule(rule, resolvedInputExpressions, outputNames) {
             setOrAddValue(outputNames[i], outputObject, undefined);
         }
     }
-    // console.log('outputObject', { matched: true, output: outputObject });
     return { matched: true, output: outputObject };
 }
 
@@ -264,7 +264,6 @@ export function evaluateDecision(decisionId, decisions, context, alreadyEvaluate
             alreadyEvaluatedDecisions[reqDecision] = true; // eslint-disable-line no-param-reassign
         }
     }
-    // console.info(`Evaluating decision "${decisionId}"...`);
     const decisionTable = decision.decisionTable;
 
     // resolve input expressions
@@ -283,7 +282,6 @@ export function evaluateDecision(decisionId, decisions, context, alreadyEvaluate
             throw new Error(`Failed to evaluate input expression of decision ${decisionId}: ${err}`);
         }
     }
-    //console.log(resolvedInputExpressions);
 
     // initialize the result to an object with undefined output values (hit policy FIRST or UNIQUE) or to an empty array (hit policy COLLECT or RULE ORDER)
     const decisionResult: any = decisionTable.hitPolicy === 'FIRST' || decisionTable.hitPolicy === 'UNIQUE' ? {} : [];
@@ -311,7 +309,6 @@ export function evaluateDecision(decisionId, decisions, context, alreadyEvaluate
                 throw new Error(`Decision "${decisionId}" is not unique but hit policy is UNIQUE.`);
             }
             hasMatch = true;
-            // console.info(`Result for decision "${decisionId}": ${JSON.stringify(ruleResult.output)} (rule ${i + 1} matched)`);
 
             // merge the result of the matched rule
             if (decisionTable.hitPolicy === 'FIRST' || decisionTable.hitPolicy === 'UNIQUE') {

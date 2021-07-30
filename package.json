@@ -1,14 +1,17 @@
 {
-  "name": "dmn-evaluater",
-  "version": "0.1.1",
+  "name": "@deutsche-kautionskasse/dmn-evaluator",
+  "version": "0.0.1",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "rollup -c",
     "example-node": "cd example/node && ts-node ./node.ts",
-    "publish": "npm run build && npm publish"
+    "prerelease": "npm run build",
+    "release": "npm publish"
   },
   "dependencies": {
     "dmn-moddle": "^9.1.0",
@@ -28,6 +31,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pablomaurer/dmn-evaluator"
+    "url": "https://github.com/Deutsche-Kautionskasse/dmn-evaluator"
   }
 }
