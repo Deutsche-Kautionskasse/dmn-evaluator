@@ -129,7 +129,6 @@ export function parseDmnXml(xml, opts = null) {
                 reject(err);
             } else {
                 try {
-                    // console.dir(dmnContent.drgElement[0].decisionLogic, { depth: 4 });
                     const decisions = parseDecisions(dmnContent.drgElement);
                     resolve(decisions);
                 } catch (err) {
@@ -258,7 +257,6 @@ export function evaluateDecision(decisionId, decisions, context, alreadyEvaluate
         const reqDecision = decision.requiredDecisions[i];
         // check if the decision was already executed, to prevent unecessary evaluations if multiple decisions require the same decision
         if (!alreadyEvaluatedDecisions[reqDecision]) {
-            console.debug(`Need to evaluate required decision ${reqDecision}`);
             const requiredResult = evaluateDecision(reqDecision, decisions, context, alreadyEvaluatedDecisions); // eslint-disable-line no-await-in-loop
             mergeContext(context, requiredResult);
             alreadyEvaluatedDecisions[reqDecision] = true; // eslint-disable-line no-param-reassign
