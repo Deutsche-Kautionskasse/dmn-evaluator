@@ -1,1 +1,1 @@
-declare module "dmn-moddle";
+declare module 'dmn-moddle';
