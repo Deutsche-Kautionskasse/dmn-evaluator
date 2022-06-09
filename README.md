@@ -1,4 +1,15 @@
 # DMN Evaluator
+
+<!-- attributes_start -->
+Type: **library**
+
+Used in production: **yes**
+
+Technologies used: **Typescript, DMN, Feelin**
+
+Description: Npm package that parses and evaluates dnm expressions in node or the browser, extended from base repository https://github.com/pablomaurer/dmn-evaluator to include extra functionality and released for usage in our npm packages.
+<!-- attributes_end -->
+
 This is another dmn evaluator.
 
 Mostly took the logic from https://github.com/HBTGmbH/dmn-eval-js but with a different feel interpreter https://github.com/nikku/feelin to avoid having moment.js as a dependency.
